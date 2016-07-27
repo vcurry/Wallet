@@ -1,0 +1,17 @@
+//
+//  AppDelegate.h
+//  MyWallet
+//
+//  Created by Verónica Cordobés on 19/7/16.
+//  Copyright © 2016 Verónica Cordobés. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
+
+@property (strong, nonatomic) UIWindow *window;
+
+
+@end
+
