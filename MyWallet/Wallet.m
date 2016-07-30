@@ -11,12 +11,28 @@
 
 @interface Wallet()
 @property (nonatomic,strong) NSMutableArray *moneys;
+@property (nonatomic,strong) NSMutableArray *currencies;
 @end
 
 @implementation Wallet
 
 -(NSUInteger) count{
     return [self.moneys count];
+}
+
+/*
+ * Creamos otro count para que devuelva el número de moneys
+ * de cada divisa
+ */
+-(NSUInteger) countOfCurrency:(NSInteger) index{
+    NSString *currencyAtIndex = [self.currencies objectAtIndex:index];
+    NSUInteger countOfMoneys = 0;
+    for(Money *each in self.moneys){
+        if([each.currency isEqual:currencyAtIndex]){
+            countOfMoneys += 1;
+        }
+    }
+    return countOfMoneys;
 }
 
 -(id)initWithAmount:(NSInteger)amount currency:(NSString *)currency{
@@ -30,18 +46,41 @@
 }
 
 -(id<Money>) plus:(Money *)other{
-    [self.moneys addObject: other];
+    [self.moneys addObject:other];
     return self;
 }
 
--(id<Money>) takeMoney:(Money *)other{
-    [self.moneys removeObject: other];
+-(id<Money>) takeMoney:(Money *)money{
+    for(Money *each in self.moneys){
+        if([each isEqual:money]){
+            [self.moneys removeObject:each];
+        }
+    }
     return self;
 }
 
--(id<Money>) addMoney:(Money *)other{
-    [self.moneys removeObject: other];
-    return self;
+-(NSUInteger) addCurrencyMoneys:(NSString *) currency{
+    NSUInteger total = 0;
+    for(Money *each in self.moneys){
+        if([each.currency isEqual:currency]){
+            total += [each.amount integerValue];
+        }
+    }
+    
+    return total;
+}
+
+/*
+ * Número de diferentes divisas que hay en moneys
+ */
+-(NSUInteger) numberOfCurrencies{
+    self.currencies = [NSMutableArray array];
+    for(Money *each in self.moneys){
+        if (![self.currencies containsObject:each.currency]){
+            [self.currencies addObject:each.currency];
+        }
+    }
+    return self.currencies.count;
 }
 
 -(id<Money>) times:(NSInteger)multiplier{

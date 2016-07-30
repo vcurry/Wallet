@@ -64,17 +64,6 @@
                               [Money dollarWithAmount:10], @"$5 + $5 = $10");
 }
 
--(void) testSimpleSubtraction{
-    XCTAssertEqualObjects([[Money dollarWithAmount:10] takeMoney:
-                           [Money dollarWithAmount:5]],
-                          [Money dollarWithAmount:5], @"$10 - $5 = $5");
-}
-
--(void) testNoNegativeSubtraction{
-    XCTAssertThrows([[Money dollarWithAmount:5] takeMoney:
-                     [Money dollarWithAmount:6]], @"The value of money cannot be under 0");
-}
-
 -(void) testedHashIsAmount{
     Money *one = [Money dollarWithAmount:1];
     XCTAssertEqual([one hash], 1, @"The hash must be the same as the amount");

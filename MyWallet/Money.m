@@ -48,22 +48,6 @@
     return total;
 }
 
--(id<Money>) takeMoney:(Money *) other{
-    NSInteger totalAmount = [self.amount integerValue] - [other.amount integerValue];
-    Money *total;
-    if (totalAmount>0){
-    
-        total = [[Money alloc] initWithAmount:totalAmount currency:self.currency];
-        
-    }else{
-        [NSException raise:@"Under0Exception"
-                    format:@"Money must be 0 or more"];
-
-    }
-    return total;
-}
-
-
 -(id<Money>) reduceToCurrency: (NSString *) currency
                    withBroker:(Broker *) broker{
     Money *result;

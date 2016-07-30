@@ -40,6 +40,7 @@
     self.simpleVC = nil;
     self.button = nil;
     self.label = nil;
+    self.wallet = nil;
 }
 
 -(void) testThatTextOnLabelIsEqualToTextOnButton{
@@ -49,18 +50,40 @@
     XCTAssertEqualObjects(self.button.titleLabel.text, self.label.text, @"Button amd label should have the same text");
 }
 
+/**
 -(void) testThatTableHasOneSection{
     NSInteger sections = [self.walletVC numberOfSectionsInTableView:nil];
     
     XCTAssertEqual(sections, 1, @"There can only be one section");
     
 }
+ */
 
+/*
+ * Modificamos el test para que teste que cada sección tendrá una celda
+ * por cada money de esa divisa +1
+ */
 -(void) testThatNumberOfCellsIsNumberOfMoneysPlusOne{
-    
-    XCTAssertEqual(self.wallet.count + 1,
-                   [self.walletVC tableView:nil numberOfRowsInSection:0],
+    UITableView *tV = [[UITableView alloc] init];
+    XCTAssertEqual([self.walletVC tableView:tV numberOfRowsInSection:0],
+                   [self.wallet countOfCurrency:0] +1,
                    @"Number of cells is the number of moneys plus 1 (the total)");
+}
+
+-(void) testThatLastSectionhasOnlyOneCell{
+    UITableView *tV = [[UITableView alloc] init];
+    XCTAssertEqual([self.walletVC tableView:tV numberOfRowsInSection:[self.wallet numberOfCurrencies]+1], 1,
+                   @"Last section should contain just one row (total)");
+}
+
+/*
+ * Si hay n divisas en el modelo, el dataSource devuelve n+1 secciones
+ */
+-(void) testThatNumberOfSectionsIsNumberOfEachMoneyPlusOne{
+    UITableView *tV = [[UITableView alloc] init];
+    XCTAssertEqual([self.wallet numberOfCurrencies] + 1,
+                   [self.walletVC numberOfSectionsInTableView:tV],
+                   @"Number of sections is the number of currencies plus 1 (the total)");
 }
 
 @end
